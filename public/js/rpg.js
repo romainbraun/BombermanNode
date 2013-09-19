@@ -1,6 +1,7 @@
 var Pokemon = function() {
 		
 	var socketio = io.connect("127.0.0.1:3000");   
+	console.log(socketio);
 /*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	
@@ -192,6 +193,7 @@ var Pokemon = function() {
 	 * @Docs : Permet de construir un objet Sasha
 	 */
 	var BobConstructor = function Bob(params) {
+		this.userID = params.userID;
 		this.y = params.position.top;
 		this.x = params.position.left;
 		this.speed = params.speed;
@@ -212,7 +214,7 @@ var Pokemon = function() {
 		this.bobSprite.css({'top':(this.y*Screen.cellHeight)+'px', 'left':(this.x*Screen.cellWidth)+'px'});
 		this.isRuning = false;
 
-		this.initKeyboard();
+		if (this.userID === currentUserID) this.initKeyboard();
 	};
 	
 	
@@ -266,18 +268,39 @@ var Pokemon = function() {
 			case 'down' : 
 				top += Screen.cellHeight * progress;
 				break;
-		} 		
-		
+		}
+
+
+
 		if(this.step == 'a') this.step = 'b';
 		else this.step = 'a';
+		
+		var user = {};
+		user.selector = this.bobSprite.selector;
+		user.step = this.step;
+		user.direction = this.direction;
+		user.position = {
+			top: top,
+			left:left
+		};
+		//console.log(this.bobSprite.selector);
 
-		this.bobSprite.empty();
-		this.bobSprite.append('<img src="img/sacha-'+this.direction+'-'+this.step+'.png"/>');	
+		socketio.emit("updatePositionTS", user);
+		socketio.on('updatePositionTC', function(user) {
+			console.log(user);
+			//$(user.selector).empty();
+			//$(user.selector).append('<img src="img/sacha-'+user.direction+'-'+user.step+'.png"/>');	
+			$(user.selector).css({
+				'top' : user.position.top+'px',
+				'left' : user.position.left+'px',
+			}); 
+		});	
 
-		this.bobSprite.css({
-			'top' : top+'px',
-			'left' : left+'px',
-		}); 
+
+	};
+
+	BobConstructor.prototype.updateRenderBySocket = function () {
+
 	};
 	
 
@@ -510,29 +533,40 @@ var Pokemon = function() {
 	Map.addItems(items);
 
 
-	// socketio.on('createBob', function () {
-	// 	alert('newBob');
-	// });
 
-	new BobConstructor({
-		bobSprite : 'sasha', 
-		direction : 'up',
-		speed : 200,
-		position : {
-			top : 6,
-			left : 5
-		}
-	});
-
-	new BobConstructor({
-		bobSprite : 'bill', 
+	var currentUserID = Math.floor(Math.random() * 1000);
+	var user = {
+		userID : currentUserID,
+		bobSprite : 'sacha'+currentUserID, 
 		direction : 'down',
-		speed : 200,
+		speed : 100,
 		position : {
-			top : 7,
-			left : 5
+			top : Math.floor(Math.random() * 11),
+			left : Math.floor(Math.random() * 11)
+		}
+	};
+	
+	socketio.emit("createBobTS", user);
+	socketio.on("createBobTC", function (users) {
+		console.log(users);
+		for (var i in users) {
+			new BobConstructor({
+				userID : users[i].userID,
+				bobSprite : users[i].bobSprite, 
+				direction : users[i].direction,
+				speed : users[i].speed,
+				position : {
+					top : users[i].position.top,
+					left : users[i].position.left
+				}
+			});
 		}
 	});
+
+
+
+
+	
 
 	
 };

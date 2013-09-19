@@ -5,13 +5,23 @@ var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
-
+var users = [];
 io.sockets.on('connection', function(socket) {
-	socket.on('positionToServer', function(data) {		
-		console.log(data);
-	    io.sockets.emit("positionToClient", { positionTop : data.positionTop, positionLeft : data.positionLeft });
+	
+
+	socket.on('createBobTS', function(user) {
+		users.push(user);
+		//console.log(users);
+		io.sockets.emit("createBobTC", users);	    
 	});
+
+	socket.on('updatePositionTS', function(user) {		
+		//console.log(user);
+	    io.sockets.emit("updatePositionTC", user);
+	});
+
 });
+
 
 
 app.use(express.static(__dirname + '/public'))
