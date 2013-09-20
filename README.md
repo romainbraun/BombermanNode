@@ -12,7 +12,7 @@ $ npm install socket.io
 $ npm install ejs
 ````
 
-And then execute the app.js to launch the application 
+And then execute the file app.js at the root of the repository to launch the application 
 
 ````
 $ node app.js
