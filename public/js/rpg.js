@@ -204,14 +204,13 @@ var Pokemon = function() {
 			height : Screen.cellHeight,
 			'position' : 'absolute',
 			'overflow' : 'hidden',
-			'text-align' : 'center',
-			'z-index' : 2000
+			'background-image': 'url(../img/perso.png)',
+			'z-index' : 2000			
 		});
 
 		this.direction = params.direction;
 		this.step = 'a';
-		this.bobSprite.html('<img src="img/sacha-'+params.direction+'-stop.png"/>');
-		this.bobSprite.css({'top':(this.y*Screen.cellHeight)+'px', 'left':(this.x*Screen.cellWidth)+'px'});
+		this.bobSprite.css({'top':(this.y*Screen.cellHeight)+'px', 'left':(this.x*Screen.cellWidth)+'px' });
 		this.isRuning = false;
 
 		if (this.userID === currentUserID) this.initKeyboard();
@@ -255,44 +254,59 @@ var Pokemon = function() {
 	BobConstructor.prototype.updateRender = function(coords, progress){
 		var top = coords.y * Screen.cellHeight;
 		var left = coords.x * Screen.cellWidth;
-		switch (this.direction){
-			case 'right' : 
-				left += Screen.cellWidth * progress;
-				break;
-			case 'left' : 
-				left -= Screen.cellWidth * progress;
-				break;
-			case 'up' : 
-				top -= Screen.cellHeight * progress;
-				break;
-			case 'down' : 
-				top += Screen.cellHeight * progress;
-				break;
-		}
-
-
+	
+		var spriteCharacter = {
+			x: 0,
+			y: 0
+		};
+		var spriteCharacterInitial = spriteCharacter;
 
 		if(this.step == 'a') this.step = 'b';
 		else this.step = 'a';
+
+		switch (this.direction){
+			case 'right' : 
+				left += Screen.cellWidth * progress;
+				spriteCharacter.y = spriteCharacter.y - 64
+				if (this.step == 'a') spriteCharacter.x = spriteCharacter.x - 64;
+				break;
+			case 'left' : 
+				left -= Screen.cellWidth * progress;
+				spriteCharacter.y = spriteCharacter.y - 32;				
+				if (this.step == 'a') spriteCharacter.x = spriteCharacter.x - 64;
+				break;
+			case 'up' : 
+				top -= Screen.cellHeight * progress;
+				spriteCharacter.y = spriteCharacter.y - 96;								
+				if (this.step == 'a') spriteCharacter.x = spriteCharacter.x - 64;
+				break;
+			case 'down' : 
+				top += Screen.cellHeight * progress;
+				spriteCharacter.y =  spriteCharacterInitial.x;								
+				if (this.step == 'a') spriteCharacter.x = spriteCharacter.x - 64;
+				break;
+		}
+
 		
 		var user = {};
 		user.selector = this.bobSprite.selector;
 		user.step = this.step;
-		user.direction = this.direction;
+		user.spriteCharacter = {
+			x: spriteCharacter.x,
+			y: spriteCharacter.y
+		};
 		user.position = {
 			top: top,
 			left:left
 		};
-		//console.log(this.bobSprite.selector);
 
-		socketio.emit("updatePositionTS", user);
+		socketio.emit("updatePositionTS", user);		
 		socketio.on('updatePositionTC', function(user) {
-			console.log(user);
-			//$(user.selector).empty();
-			//$(user.selector).append('<img src="img/sacha-'+user.direction+'-'+user.step+'.png"/>');	
 			$(user.selector).css({
 				'top' : user.position.top+'px',
 				'left' : user.position.left+'px',
+				'background-position-x': spriteCharacter.x+'px ',
+				'background-position-y': spriteCharacter.y+'px ',
 			}); 
 		});	
 
@@ -303,18 +317,6 @@ var Pokemon = function() {
 
 	};
 	
-
-	
-	/**
-	 * method : stopMove(string direction)
-	 * @Docs : Permet l'arrêt de la method move
-	 */
-	BobConstructor.prototype.stopMove = function(direction){
-		var self = this;
-		this.bobSprite.empty();
-	 	this.bobSprite.append('<img src="img/sacha-down-stop.png"/>');
-		window.clearInterval(self.timerMove);
-	};
 	
 	/**
 	 * method : moveTo(string direction)
@@ -441,7 +443,7 @@ var Pokemon = function() {
 
 			self.isPress = false;
 			if (self.timerMoveTo) return ;
-			self.stopMove(self.direction);
+			//self.stopMove(self.direction);
 		
 		});
 	};
@@ -486,10 +488,10 @@ var Pokemon = function() {
 	
 
 	var Screen = new ScreenConstructor({
-		screenWidth : 330,
-		screenHeight : 330,
-		cellWidth : 30,
-		cellHeight : 30,
+		screenWidth : 363,
+		screenHeight : 363,
+		cellWidth : 33,
+		cellHeight : 33,
 		$elem : $('.screen')
 	});
 
@@ -537,9 +539,10 @@ var Pokemon = function() {
 	var currentUserID = Math.floor(Math.random() * 1000);
 	var user = {
 		userID : currentUserID,
-		bobSprite : 'sacha'+currentUserID, 
+		bobSprite : 'sacha'+currentUserID,
+		character : 'A', 
 		direction : 'down',
-		speed : 100,
+		speed : 500,
 		position : {
 			top : Math.floor(Math.random() * 11),
 			left : Math.floor(Math.random() * 11)
