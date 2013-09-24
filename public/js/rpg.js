@@ -124,7 +124,7 @@ var Bomberman = function() {
 	 * Class : Cell()
 	 * @Docs : Permet de construir une cellule  
 	 */
-	CellConstructor = function Cell(x,y) {
+	var CellConstructor = function Cell(x,y) {
 		this.sprite = null;
 		this.x = x;
 		this.y = y;
@@ -263,7 +263,6 @@ var Bomberman = function() {
 		spriteCharacter.y = this.spriteCharacter.y;
 
 
-
 		if(this.step == 'a') this.step = 'b';
 		else this.step = 'a';
 
@@ -303,6 +302,12 @@ var Bomberman = function() {
 			left:left
 		};
 
+		this.updateRenderBySocket(user);
+
+	};
+
+	BobConstructor.prototype.updateRenderBySocket = function (user) {
+
 		socketio.emit("updatePositionTS", user);		
 		socketio.on('updatePositionTC', function(user) {
 			$(user.selector).css({
@@ -312,12 +317,6 @@ var Bomberman = function() {
 				'background-position-y': user.spriteCharacter.y+'px ',
 			}); 
 		});	
-
-
-	};
-
-	BobConstructor.prototype.updateRenderBySocket = function () {
-
 	};
 	
 	
@@ -443,7 +442,6 @@ var Bomberman = function() {
 		});
 
 		$(window).keyup(function () {	
-
 			self.isPress = false;
 			if (self.timerMoveTo) return ;
 		

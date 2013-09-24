@@ -4,84 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script src="/socket.io/socket.io.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-	<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="/js/lib/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="/js/rpg.js"></script>
-	<script type="text/javascript">
-		$(function () {
-			Screen = new ScreenConstructor({
-				screenWidth : 363,
-				screenHeight : 363,
-				cellWidth : 33,
-				cellHeight : 33,
-				$elem : $('.screen')
-			});
-
-			
-			Map = new MapConstructor(Screen.screenWidth / Screen.cellWidth, Screen.screenHeight / Screen.cellHeight);
-
-
-			items = 
-			[
-				{
-					name : 'desk', 
-					value :  new ItemConstructor({
-						y : 4,
-						x : 6,
-						height : 2,
-						width : 3,
-						img : 'maps/chen/desk.png',
-						action : { 
-							type : 'conflict', 
-							proba : 1
-						} 
-					})
-				}		
-			];
-
-
-			Map.addItems(items);
-
-
-
-			currentUserID = Math.floor(Math.random() * 1000);
-			var user = {
-				userID : currentUserID,
-				bobSprite : 'sacha'+currentUserID,
-				character : 'A', 
-				direction : 'down',
-				speed : 500,
-				position : {
-					top : Math.floor(Math.random() * 11),
-					left : Math.floor(Math.random() * 11)
-				}
-			};
-			
-			socketio.emit("createBobTS", user);
-			socketio.on("createBobTC", function (users) {
-				console.log(users);
-				for (var i in users) {
-					new BobConstructor({
-						userID : users[i].userID,
-						bobSprite : users[i].bobSprite, 
-						direction : users[i].direction,
-						speed : users[i].speed,
-						position : {
-							top : users[i].position.top,
-							left : users[i].position.left
-						}
-					});
-				}
-			});
-
-		});
-	</script>
-	<style type="text/css">
-
-	</style>
+	<script type="text/javascript" src="/js/config.js"></script>
 </head>
 <body>
-
-	<div class="screen">
-	</div>
+	<div class="screen"></div>
 </body>
 </html>
