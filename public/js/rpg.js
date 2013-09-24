@@ -1,7 +1,7 @@
-var Pokemon = function() {
+var Bomberman = function() {
 		
-	var socketio = io.connect("127.0.0.1:3000");   
-	console.log(socketio);
+	socketio = io.connect("127.0.0.1:3000");   
+	
 /*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	
@@ -9,13 +9,13 @@ var Pokemon = function() {
 	 * Class : Screen(Object params)
 	 * @Docs : Permet de construir un objet Screen 
 	 */
-	var ScreenConstructor = function Screen (params){
+	ScreenConstructor = function Screen (params){
 		
-		this.cellWidth 	= params.cellWidth; 
+		this.cellWidth = params.cellWidth; 
 		this.cellHeight = params.cellHeight;
-		this.screenWidth 	= params.screenWidth;
-		this.screenHeight	= params.screenHeight;
-		this.$elem 		= params.$elem;
+		this.screenWidth = params.screenWidth;
+		this.screenHeight = params.screenHeight;
+		this.$elem = params.$elem;
 		this.ScreenWidthCell = (this.screenWidth/this.cellWidth);
 		this.ScreenHeightCell = (this.screenHeight/this.cellHeight);
 		
@@ -58,7 +58,7 @@ var Pokemon = function() {
 	 * Class : Map()
 	 * @Docs : Permet de construir le tableau et ses coordonnées y puis x  
 	 */
-	var MapConstructor = function Map(width, height) {
+	MapConstructor = function Map(width, height) {
 		this.map = [];
 		for(var y = 0; y < height; y++){
 			this.map[y] = [];
@@ -107,7 +107,7 @@ var Pokemon = function() {
 	 * method : Item(int y, int x, int height, int width, string img, string action [,int proba])
 	 * @Docs : Permet de construir une Item  
 	 */
-	var ItemConstructor = function Item(params){		
+	ItemConstructor = function Item(params){		
 		this.width = params.width;
 		this.height = params.height;
 		this.coords = { x : params.x, y : params.y };
@@ -124,7 +124,7 @@ var Pokemon = function() {
 	 * Class : Cell()
 	 * @Docs : Permet de construir une cellule  
 	 */
-	var CellConstructor = function Cell(x,y) {
+	CellConstructor = function Cell(x,y) {
 		this.sprite = null;
 		this.x = x;
 		this.y = y;
@@ -177,10 +177,10 @@ var Pokemon = function() {
 		.width(Screen.cellWidth)
 		.height(Screen.cellWidth)
 		.css({
-			'position' 	: 'absolute',
-			'top'		: (this.y*Screen.cellWidth)+'px',
-			'left'		: (this.x*Screen.cellWidth)+'px',
-			'overflow'	: 'hidden'
+			'position': 'absolute',
+			'top': (this.y*Screen.cellWidth)+'px',
+			'left': (this.x*Screen.cellWidth)+'px',
+			'overflow': 'hidden'
 		});
 
 	};
@@ -192,22 +192,25 @@ var Pokemon = function() {
 	 * Class : Sasha(jQuery sasha, string direction, obj position)
 	 * @Docs : Permet de construir un objet Sasha
 	 */
-	var BobConstructor = function Bob(params) {
+	BobConstructor = function Bob(params) {
 		this.userID = params.userID;
 		this.y = params.position.top;
 		this.x = params.position.left;
 		this.speed = params.speed;
 		Screen.$elem.append('<div class="'+params.bobSprite+'"></div>');
 		this.bobSprite = $('.' + params.bobSprite);
+		
+		this.spriteCharacter = { x: 0, y: 128};
 		this.bobSprite.css({
 			width : Screen.cellWidth,
 			height : Screen.cellHeight,
 			'position' : 'absolute',
 			'overflow' : 'hidden',
 			'background-image': 'url(../img/perso.png)',
+			'background-position-x': this.spriteCharacter.x,
+			'background-position-y': this.spriteCharacter.y,
 			'z-index' : 2000			
 		});
-
 		this.direction = params.direction;
 		this.step = 'a';
 		this.bobSprite.css({'top':(this.y*Screen.cellHeight)+'px', 'left':(this.x*Screen.cellWidth)+'px' });
@@ -254,12 +257,12 @@ var Pokemon = function() {
 	BobConstructor.prototype.updateRender = function(coords, progress){
 		var top = coords.y * Screen.cellHeight;
 		var left = coords.x * Screen.cellWidth;
-	
-		var spriteCharacter = {
-			x: 0,
-			y: 0
-		};
-		var spriteCharacterInitial = spriteCharacter;
+
+		var spriteCharacter = {}
+		spriteCharacter.x = this.spriteCharacter.x;
+		spriteCharacter.y = this.spriteCharacter.y;
+
+
 
 		if(this.step == 'a') this.step = 'b';
 		else this.step = 'a';
@@ -282,8 +285,8 @@ var Pokemon = function() {
 				break;
 			case 'down' : 
 				top += Screen.cellHeight * progress;
-				spriteCharacter.y =  spriteCharacterInitial.x;								
-				if (this.step == 'a') spriteCharacter.x = spriteCharacter.x - 64;
+				spriteCharacter.y =  this.spriteCharacter.y;								
+				if (this.step == 'a') spriteCharacter.x = this.spriteCharacter.x - 64;
 				break;
 		}
 
@@ -305,8 +308,8 @@ var Pokemon = function() {
 			$(user.selector).css({
 				'top' : user.position.top+'px',
 				'left' : user.position.left+'px',
-				'background-position-x': spriteCharacter.x+'px ',
-				'background-position-y': spriteCharacter.y+'px ',
+				'background-position-x': user.spriteCharacter.x+'px ',
+				'background-position-y': user.spriteCharacter.y+'px ',
 			}); 
 		});	
 
@@ -443,138 +446,16 @@ var Pokemon = function() {
 
 			self.isPress = false;
 			if (self.timerMoveTo) return ;
-			//self.stopMove(self.direction);
 		
 		});
 	};
-
-
-
-
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	
-
-
-	
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-	
-
-
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-	
-	
-	
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-
-	
-	 
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-	
-
-
-	
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	
-	
-
-	var Screen = new ScreenConstructor({
-		screenWidth : 363,
-		screenHeight : 363,
-		cellWidth : 33,
-		cellHeight : 33,
-		$elem : $('.screen')
-	});
-
-	
-	Map = new MapConstructor(Screen.screenWidth / Screen.cellWidth, Screen.screenHeight / Screen.cellHeight);
-
-
-	items = 
-	[
-		{
-			name : 'chen', 
-			value :  new ItemConstructor({
-				y : 3,
-				x : 5,
-				height : 1,
-				width : 1,
-				img : 'maps/chen/chen.png',
-				action : { 
-					type : 'conflict', 
-					proba : 1
-				} 
-			})
-		},
-		{
-			name : 'desk', 
-			value :  new ItemConstructor({
-				y : 4,
-				x : 6,
-				height : 2,
-				width : 3,
-				img : 'maps/chen/desk.png',
-				action : { 
-					type : 'conflict', 
-					proba : 1
-				} 
-			})
-		}		
-	];
-
-
-	Map.addItems(items);
-
-
-
-	var currentUserID = Math.floor(Math.random() * 1000);
-	var user = {
-		userID : currentUserID,
-		bobSprite : 'sacha'+currentUserID,
-		character : 'A', 
-		direction : 'down',
-		speed : 500,
-		position : {
-			top : Math.floor(Math.random() * 11),
-			left : Math.floor(Math.random() * 11)
-		}
-	};
-	
-	socketio.emit("createBobTS", user);
-	socketio.on("createBobTC", function (users) {
-		console.log(users);
-		for (var i in users) {
-			new BobConstructor({
-				userID : users[i].userID,
-				bobSprite : users[i].bobSprite, 
-				direction : users[i].direction,
-				speed : users[i].speed,
-				position : {
-					top : users[i].position.top,
-					left : users[i].position.left
-				}
-			});
-		}
-	});
-
-
-
 
 	
 
 	
 };
 
+$(function () { Bomberman(); });
 
 
 
-$(function () { setTimeout(Pokemon, 50); });
