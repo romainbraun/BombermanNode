@@ -90,6 +90,24 @@ $(function () {
 	Map.addItems(items);
 
 
+
+
+
+
+
+	$('.clear-storage').on('click', function () {
+		localStorage.clear();
+		window.location.reload();
+	});
+
+
+
+
+
+
+
+
+
 	if (localStorage.currentUserID === '' || localStorage.currentUserID === undefined) {
 		currentUserID = Math.floor(Math.random() * 1000);
 		localStorage.setItem('currentUserID', currentUserID);
@@ -137,6 +155,8 @@ $(function () {
 		});
 
 	 });
+
+
 
 	$('.character').on('click', function() {
 
