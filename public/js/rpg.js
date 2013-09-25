@@ -44,9 +44,7 @@ var Bomberman = function() {
 				grid[y][x] = new SpriteConstructor(x,y);
 				grid[y][x].build();
 			}
-		}
-		
-		this.getGrid = grid;
+		}		
 
 	};
 
@@ -142,12 +140,10 @@ var Bomberman = function() {
 		render.width(Screen.cellWidth);
 		render.height(Screen.cellHeight);
 		render.css({
-			'position' : 'absolute',
-			'top' : (this.y*Screen.cellHeight)+'px',
+			'position': 'absolute',
+			'top': (this.y*Screen.cellHeight)+'px',
 			'left' : (this.x*Screen.cellWidth)+'px',
-			'overflow' : 'hidden'
-		});
-		render.css({
+			'overflow' : 'hidden',
 			'background-image' : 'url('+this.sprite.img+')',
 			'background-position' : (this.sprite.x*Screen.cellWidth*-1)+'px '+(this.sprite.y*Screen.cellHeight*-1)+'px'
 		});
@@ -197,10 +193,13 @@ var Bomberman = function() {
 		this.y = params.position.top;
 		this.x = params.position.left;
 		this.speed = params.speed;
+
+		this.spriteCharacter = this.chooseCharacter(params.character);
+
 		Screen.$elem.append('<div class="'+params.bobSprite+'"></div>');
 		this.bobSprite = $('.' + params.bobSprite);
 		
-		this.spriteCharacter = { x: 0, y: 128};
+		//this.spriteCharacter = { x: 0, y: 128};
 		this.bobSprite.css({
 			width : Screen.cellWidth,
 			height : Screen.cellHeight,
@@ -216,11 +215,38 @@ var Bomberman = function() {
 		this.bobSprite.css({'top':(this.y*Screen.cellHeight)+'px', 'left':(this.x*Screen.cellWidth)+'px' });
 		this.isRuning = false;
 
-		if (this.userID === currentUserID) this.initKeyboard();
+		if (this.userID == currentUserID) this.initKeyboard();
 	};
 	
 	
 
+	BobConstructor.prototype.chooseCharacter = function(character){
+		var spriteCharacter = null;
+		switch (character){
+			case 'A' : 
+				spriteCharacter = { x: 0, y: 0};
+				break;
+			case 'B' : 
+				spriteCharacter = { x: 0, y: 128};
+				break;
+			case 'C' : 
+				spriteCharacter = { x: 288, y: 0};
+				break;
+			case 'D' : 
+				spriteCharacter = { x: 192, y: 0};
+				break;
+			case 'E' : 
+				spriteCharacter = { x: 96, y: 0};
+				break;
+			case 'F' : 
+				spriteCharacter = { x: 289, y: 128};
+				break;
+			case 'G' : 
+				spriteCharacter = { x: 192, y: 128};
+				break;	
+		}
+		return spriteCharacter;
+	};
 	
 	/**
 	 * method : forward(direction)

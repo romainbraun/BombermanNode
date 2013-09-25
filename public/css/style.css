@@ -14,24 +14,53 @@ body {
 	overflow:hidden;
 }
 
-
-
-
-/*-------screen--------*/
+/*-----------screen---------*/
 
 .screen {
 	background: #ebebeb;
 }
 
-.screen .sasha{
-	width: 30px;
-	height: 30px;
-	position: absolute;
-	top: 0;
-	left: 0;
+/*-------characters--------*/
+.characters-container {
 	overflow: hidden;
-	text-align: center;
-	z-index:2000;
+	margin-top: 30px;
+}
+.characters-container .character {
+	width: 33px;
+	height: 33px;
+	float: left;
+	margin: 0 7px 0 7px;
+	cursor: pointer;
+}
+
+.characters-container .character.a {
+	background-image: url(../img/perso.png);
+}
+.characters-container .character.b {
+	background-image: url(../img/perso.png);
+	background-position-y : 128px;
+}
+.characters-container .character.c {
+	background-image: url(../img/perso.png);
+	background-position-x : 256px;
+}
+.characters-container .character.d {
+	background-image: url(../img/perso.png);
+	background-position-x : 160px;
+}
+.characters-container .character.e {
+	background-image: url(../img/perso.png);
+	background-position-x : 64px;
+}
+.characters-container .character.f {
+	background-image: url(../img/perso.png);
+	background-position-x : 256px;
+	background-position-y : 128px;
+}
+.characters-container .character.g {
+	background-image: url(../img/perso.png);
+	background-position-x : 160px;
+	background-position-y : 128px;
 }
 
 

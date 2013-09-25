@@ -8,6 +8,10 @@ var io = require('socket.io').listen(server);
 var users = [];
 io.sockets.on('connection', function(socket) {
 	
+	//console.log('connection')
+	var numberConnection = io.sockets.clients().length;
+	
+	socket.emit("retriveCharactersTC", users);
 
 	socket.on('createBobTS', function(user) {
 		users.push(user);
