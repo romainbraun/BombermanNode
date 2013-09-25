@@ -130,6 +130,21 @@ $(function () {
 
 
 
+	socketio.on("createBobTC", function (user) {
+		
+		new BobConstructor({
+			userID : user.userID,
+			bobSprite : user.bobSprite, 
+			character: user.character,
+			direction : user.direction,
+			speed : user.speed,
+			position : {
+				top : user.position.top,
+				left : user.position.left
+			}
+		});
+
+	 });
 
 	$('.character').on('click', function() {
 
@@ -149,22 +164,7 @@ $(function () {
 		};
 		
 		socketio.emit("createBobTS", user);
-		socketio.on("createBobTC", function (users) {
-		
-			for (var i in users) {
-				new BobConstructor({
-					userID : users[i].userID,
-					bobSprite : users[i].bobSprite, 
-					character: users[i].character,
-					direction : users[i].direction,
-					speed : users[i].speed,
-					position : {
-						top : users[i].position.top,
-						left : users[i].position.left
-					}
-				});
-			}
-		});
+
 	});
 
 

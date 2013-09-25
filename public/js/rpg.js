@@ -206,8 +206,7 @@ var Bomberman = function() {
 			'position' : 'absolute',
 			'overflow' : 'hidden',
 			'background-image': 'url(../img/perso.png)',
-			'background-position-x': this.spriteCharacter.x,
-			'background-position-y': this.spriteCharacter.y,
+			'background-position' : this.spriteCharacter.x+'px '+this.spriteCharacter.y+'px',			
 			'z-index' : 2000			
 		});
 		this.direction = params.direction;
@@ -339,8 +338,7 @@ var Bomberman = function() {
 			$(user.selector).css({
 				'top' : user.position.top+'px',
 				'left' : user.position.left+'px',
-				'background-position-x': user.spriteCharacter.x+'px ',
-				'background-position-y': user.spriteCharacter.y+'px ',
+				'background-position' : user.spriteCharacter.x+'px '+user.spriteCharacter.y+'px'				
 			}); 
 		});	
 	};

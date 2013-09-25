@@ -15,8 +15,8 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('createBobTS', function(user) {
 		users.push(user);
-		//console.log(users);
-		io.sockets.emit("createBobTC", users);	    
+		console.log('create perso');
+		io.sockets.emit("createBobTC", user);	    
 	});
 
 	socket.on('updatePositionTS', function(user) {		
