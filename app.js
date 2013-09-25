@@ -11,7 +11,7 @@ io.sockets.on('connection', function(socket) {
 	//console.log('connection')
 	var numberConnection = io.sockets.clients().length;
 	
-	socket.emit("retriveCharactersTC", users);
+	socket.emit("retriveCharactersTC", { users : users, connection : numberConnection, players : users.length });
 
 	socket.on('createBobTS', function(user) {
 		users.push(user);

@@ -89,45 +89,37 @@ $(function () {
 	];
 	Map.addItems(items);
 
-	
-
-
-
-
-
-
-
-	var characterIsChoosen = false;
 
 	if (localStorage.currentUserID === '' || localStorage.currentUserID === undefined) {
 		currentUserID = Math.floor(Math.random() * 1000);
 		localStorage.setItem('currentUserID', currentUserID);
 	} else {
 		currentUserID = localStorage.currentUserID;
-		if (characterIsChoosen) { 
+		
 			$('.characters-container').hide();
-		}
+		
 	}
 
 	
-	socketio.on('retriveCharactersTC', function (users) {
-		console.log(currentUserID);
-		console.log(users);
-		for (var i in users) {
+	socketio.on('retriveCharactersTC', function (data) {
+		
+		$('body').append('<div>Users online : ' + data.connection  + '</div>');
+		$('body').append('<div>Players : ' + data.players  + '</div>');
+
+		for (var i in data.users) {
 			new BobConstructor({
-				userID : users[i].userID,
-				bobSprite : users[i].bobSprite, 
-				character: users[i].character,
-				direction : users[i].direction,
-				speed : users[i].speed,
+				userID : data.users[i].userID,
+				bobSprite : data.users[i].bobSprite, 
+				character: data.users[i].character,
+				direction : data.users[i].direction,
+				speed : data.users[i].speed,
 				position : {
-					top : users[i].position.top,
-					left : users[i].position.left
+					top : data.users[i].position.top,
+					left : data.users[i].position.left
 				}
 			});
 		}
 	});
-
 
 
 	socketio.on("createBobTC", function (user) {
@@ -148,7 +140,6 @@ $(function () {
 
 	$('.character').on('click', function() {
 
-		characterIsChoosen = true;
 		$('.characters-container').hide();
 		
 		var user = {
