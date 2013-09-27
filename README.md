@@ -4,8 +4,6 @@ Bomberman with NodeJS
 Installation
 ------------------------------------------------------------------------
 
-## Libraries and packages used for this application
-
 ### Client Side
 -	jQuery (http://jquery.com/)
 -	RequireJS (http://requirejs.org/)
