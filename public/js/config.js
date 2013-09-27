@@ -91,7 +91,7 @@ $(function () {
 
 
 
-
+ 
 
 
 
@@ -99,9 +99,6 @@ $(function () {
 		localStorage.clear();
 		window.location.reload();
 	});
-
-
-
 
 
 
