@@ -4,19 +4,19 @@ Bomberman with NodeJS
 Installation
 ------------------------------------------------------------------------
 
-### Libraries and packages used for this application
+## Libraries and packages used for this application
 
-## Client Side
+### Client Side
 -	jQuery (http://jquery.com/)
 -	RequireJS (http://requirejs.org/)
 
-## Server Side
+### Server Side
 -	Express (http://expressjs.com/)
 -	SocketIO (http://socket.io/)
 -	Ejs (http://embeddedjs.com/)
 
 
-### 1 Install the different packages Node
+## 1 Install the different packages Node
 
 ````
 $ npm install express
