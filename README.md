@@ -17,9 +17,9 @@ Installation
 ## 1 Install the different packages Node
 
 ````
-$ npm install express
-$ npm install socket.io
-$ npm install ejs
+$ sudo npm install express -g
+$ sudo npm install socket.io -g
+$ sudo npm install ejs -g
 ````
 
 And then execute the file app.js at the root of the repository to launch the application 
