@@ -14,16 +14,35 @@ body {
 	overflow:hidden;
 }
 
+/*-----------app---------*/
+.app-container {
+	margin: 0 auto;
+	width: 960px;
+}
 /*-----------screen---------*/
-
 .screen {
 	background: #ebebeb;
+	border: solid 5px #DADADA;
+	position: relative;
+	margin: 0 auto;
 }
-
 /*-------characters--------*/
+
 .characters-container {
+	min-height: 60px;
+	margin: 0 auto;
+	width: 363px;
+}
+.characters-container .title{
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 7px;
+}
+.characters-list {
 	overflow: hidden;
-	margin-top: 30px;
+	margin-top: 12px;
+	margin-left: 20px;
+	margin-bottom: 15px;
 }
 .characters-container .character {
 	width: 33px;
@@ -62,6 +81,8 @@ body {
 	background-position-x : 160px;
 	background-position-y : 128px;
 }
+
+
 
 
 

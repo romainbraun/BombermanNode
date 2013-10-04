@@ -15,14 +15,14 @@ require(['config'], function(){
         localStorage.setItem('currentUserID', currentUserID);
     } else {
         currentUserID = localStorage.currentUserID;
-        $('.characters-container').hide();
+        $('.characters-list').hide();
     }
 
     
     socketio.on('retriveCharactersTC', function (data) {
         
-        $('body').append('<div>Users online : ' + data.connection  + '</div>');
-        $('body').append('<div>Players : ' + data.players  + '</div>');
+        $('.app-container').append('<div>Users online : ' + data.connection  + '</div>');
+        $('.app-container').append('<div>Players : ' + data.players  + '</div>');
 
         for (var i in data.users) {
             new Rpg.Bob({
@@ -60,7 +60,7 @@ require(['config'], function(){
 
     $('.character').on('click', function() {
 
-        $('.characters-container').hide();
+        $('.characters-list').hide();
         
         var user = {
             userID : currentUserID,

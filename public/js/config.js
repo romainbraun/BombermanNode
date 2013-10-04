@@ -25,7 +25,21 @@ define(['rpg', 'jQuery'], function (Rpg, $) {
 
 	items = 
 	[
-	    {
+		{	
+	        name : 'floor', 
+	        value :  new Rpg.Item({
+	            y : 0,
+	            x : 0,
+	            height : 11,
+	            width : 11,
+	            img : 'maps/floor.jpg',
+	            action : { 
+	                type : 'allow', 
+	                proba : 1
+	            } 
+	        })
+	    },
+	    {	
 	        name : 'wall', 
 	        value :  new Rpg.Item({
 	            y : 1,
@@ -89,6 +103,20 @@ define(['rpg', 'jQuery'], function (Rpg, $) {
 	            height : 5,
 	            width : 1,
 	            img : 'maps/wall.jpg',
+	            action : { 
+	                type : 'conflict', 
+	                proba : 1
+	            } 
+	        })
+	    },
+	    {
+	        name : 'house', 
+	        value :  new Rpg.Item({
+	            y : 8,
+	            x : 8,
+	            height : 3,
+	            width : 3,
+	            img : 'maps/house.png',
 	            action : { 
 	                type : 'conflict', 
 	                proba : 1
